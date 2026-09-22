@@ -1145,29 +1145,15 @@ body.system-root.light-mode {
     margin: 0 auto;
 }
 
-.version-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #1d4ed8;
-    background: rgba(37, 99, 235, 0.08);
-    border: 1px solid rgba(37, 99, 235, 0.2);
-    padding: 0.35rem 0.85rem;
-    border-radius: 999px;
-    margin-bottom: 1.25rem;
-}
-
 .download-page-title {
     font-family: var(--font-display);
     font-size: clamp(2.4rem, 5.5vw, 4rem);
     font-weight: 700;
     letter-spacing: -0.035em;
     color: var(--text-primary);
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+}
     line-height: 1.1;
     margin-bottom: 1.25rem;
 }
@@ -1341,4 +1327,122 @@ body.system-root.light-mode {
     flex-shrink: 0;
     margin-top: 1px;
 }
+
+/* ==========================================================================
+   React Bits UI Components & Micro-Interactions (reactbits.dev)
+   ========================================================================== */
+
+/* 1. React Bits: Spotlight Card Effect (Cursor-Following Radial Illumination) */
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --spotlight-color: rgba(37, 99, 235, 0.075);
+}
+
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+        380px circle at var(--mouse-x) var(--mouse-y),
+        var(--spotlight-color),
+        transparent 65%
+    );
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.spotlight-card:hover::before {
+    opacity: 1;
+}
+
+.spotlight-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* 2. React Bits: Shiny Text (Subtle Luxury Light Sweep) */
+.shiny-text {
+    background: linear-gradient(
+        115deg,
+        #111827 0%,
+        #111827 35%,
+        #2563eb 50%,
+        #111827 65%,
+        #111827 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: shinyTextSweep 7s ease-in-out infinite;
+    display: inline-block;
+}
+
+@keyframes shinyTextSweep {
+    0%, 20% {
+        background-position: 130% 0;
+    }
+    60%, 100% {
+        background-position: -130% 0;
+    }
+}
+
+/* 3. React Bits: Brand Audio Pulse Equalizer Micro-Indicator */
+.audio-equalizer-bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2.5px;
+    height: 13px;
+    padding: 0 4px;
+    margin-left: 0.45rem;
+    vertical-align: middle;
+}
+
+.eq-bar {
+    width: 2.5px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    animation: audioBounce 1.4s ease-in-out infinite alternate;
+}
+
+.eq-bar.bar-1 { height: 35%; animation-delay: 0.1s; }
+.eq-bar.bar-2 { height: 85%; animation-delay: 0.35s; }
+.eq-bar.bar-3 { height: 55%; animation-delay: 0.2s; }
+.eq-bar.bar-4 { height: 95%; animation-delay: 0.5s; }
+
+@keyframes audioBounce {
+    0% { height: 25%; opacity: 0.5; }
+    50% { height: 95%; opacity: 1; }
+    100% { height: 40%; opacity: 0.7; }
+}
+
+/* 4. React Bits: Magnetic Button Smoothing */
+[data-magnetic] {
+    will-change: transform;
+    transition: transform 0.22s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.25s ease, background 0.2s ease;
+}
+
+/* 5. React Bits: BlurText / Scroll Reveal */
+.blur-reveal {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, filter, transform;
+}
+
+.blur-reveal.in-view {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+}
+
 

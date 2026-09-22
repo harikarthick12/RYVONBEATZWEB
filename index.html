@@ -167,6 +167,12 @@
                 <div class="brand-title-group">
                     <span class="brand-name">RYVON BEATZ</span>
                 </div>
+                <div class="audio-equalizer-bars" aria-hidden="true" title="Lossless Audio Engine Active">
+                    <span class="eq-bar bar-1"></span>
+                    <span class="eq-bar bar-2"></span>
+                    <span class="eq-bar bar-3"></span>
+                    <span class="eq-bar bar-4"></span>
+                </div>
             </a>
 
             <!-- Primary Navigation Links -->
@@ -183,7 +189,7 @@
 
             <!-- Actions -->
             <div class="header-actions">
-                <a href="download.html" class="btn-header-download" aria-label="Download RYVON BEATZ APK">
+                <a href="download.html" class="btn-header-download" aria-label="Download RYVON BEATZ APK" data-magnetic>
                     <span class="material-symbols-outlined cta-icon">download</span>
                     <span>Download APK</span>
                 </a>
@@ -210,9 +216,9 @@
         <!-- Spacious Hero Section: Heart-touching Tribute to Music -->
         <section class="hero-stage-section" id="hero">
             <div class="hero-stage-container">
-                <span class="hero-category-label">A SANCTUARY FOR PURE SOUND</span>
+                <span class="hero-category-label shiny-text">A SANCTUARY FOR PURE SOUND</span>
 
-                <h1 class="hero-headline">
+                <h1 class="hero-headline shiny-text">
                     Music, Refined.
                 </h1>
 
@@ -225,13 +231,13 @@
                     </p>
                 </div>
 
-                <!-- Hero Action CTAs -->
+                <!-- Hero Action CTAs with React Bits Magnetic Physics -->
                 <div class="hero-cta-group">
-                    <a href="download.html" class="btn-hero-primary" aria-label="Download RYVON BEATZ APK for Android">
+                    <a href="download.html" class="btn-hero-primary" aria-label="Download RYVON BEATZ APK for Android" data-magnetic>
                         <span class="material-symbols-outlined">download</span>
                         <span>Download RYVON BEATZ APK</span>
                     </a>
-                    <a href="#experience" class="btn-hero-secondary">
+                    <a href="#experience" class="btn-hero-secondary" data-magnetic>
                         <span class="material-symbols-outlined">explore</span>
                         <span>Explore Experience</span>
                     </a>
@@ -248,7 +254,7 @@
 
         <!-- 4 Process Stages: Spacious Editorial Showcase with 4 App Screenshots -->
         <section class="stages-section" id="experience">
-            <div class="stages-header text-center">
+            <div class="stages-header text-center blur-reveal">
                 <span class="eyebrow-tag">APP EXPERIENCE</span>
                 <h2 class="section-title">Designed around your listening.</h2>
                 <p class="section-subtitle">Every surface is tuned to remove friction between you and your library.</p>
@@ -332,7 +338,7 @@
         <!-- Clean Feature Grid: Everything You Need for a Better Listening Experience -->
         <section class="features-section" id="features">
             <div class="section-container">
-                <div class="features-header">
+                <div class="features-header blur-reveal">
                     <span class="eyebrow-tag">CORE CAPABILITIES</span>
                     <h2 class="section-title">Everything you need for a better listening experience.</h2>
                     <p class="section-subtitle">Engineered from the ground up for audiophiles, music lovers, and privacy advocates.</p>
@@ -340,57 +346,73 @@
 
                 <div class="features-grid-8">
                     <!-- Feature 1: Bit-Perfect Audio -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">graphic_eq</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10v4"></path><path d="M6 6v12"></path><path d="M10 3v18"></path><path d="M14 7v10"></path><path d="M18 5v14"></path><path d="M22 10v4"></path></svg>
+                        </div>
                         <h3>Bit-Perfect Audio</h3>
                         <p>Bypasses default Android resampling for pure 24-bit/192kHz output to external DACs, USB audio, and LDAC Bluetooth.</p>
                     </article>
 
                     <!-- Feature 2: Synchronized Lyrics -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">lyrics</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+                        </div>
                         <h3>Synchronized Lyrics</h3>
                         <p>Real-time line-by-line kinetic lyrics typography synced accurately to playback with auto-scrolling choreography.</p>
                     </article>
 
                     <!-- Feature 3: Dynamic Album Theming -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">palette</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg>
+                        </div>
                         <h3>Dynamic Themes</h3>
                         <p>Surfaces and ambient gradients fluidly extract dominant tones from album artwork for a personalized visual vibe.</p>
                     </article>
 
                     <!-- Feature 4: Gapless Playback -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">motion_photos_auto</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                        </div>
                         <h3>Gapless Playback</h3>
                         <p>Studio-grade continuous playback with zero gap and configurable crossfade, honoring live albums and classical suites.</p>
                     </article>
 
                     <!-- Feature 5: Offline Music & Local Library -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">folder_music</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+                        </div>
                         <h3>Offline Music Library</h3>
                         <p>Lightning-fast local storage indexing for FLAC, WAV, ALAC, AAC, and MP3 files. Play completely offline without data.</p>
                     </article>
 
                     <!-- Feature 6: Hardware DSP Equalizer -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">tune</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"></line><line x1="4" x2="4" y1="10" y2="3"></line><line x1="12" x2="12" y1="21" y2="12"></line><line x1="12" x2="12" y1="8" y2="3"></line><line x1="20" x2="20" y1="21" y2="16"></line><line x1="20" x2="20" y1="12" y2="3"></line><line x1="1" x2="7" y1="14" y2="14"></line><line x1="9" x2="15" y1="8" y2="8"></line><line x1="17" x2="23" y1="16" y2="16"></line></svg>
+                        </div>
                         <h3>Hardware DSP EQ</h3>
                         <p>Multi-band parametric equalizer, bass enhancement, and 3D spatializer calibrated for headphones and IEMs.</p>
                     </article>
 
                     <!-- Feature 7: Zero Distractions -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">block</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" x2="19.07" y1="4.93" y2="19.07"></line></svg>
+                        </div>
                         <h3>Zero Distractions</h3>
                         <p>Completely free of commercial advertisements, telemetry trackers, sponsored banners, and paywalled subscriptions.</p>
                     </article>
 
                     <!-- Feature 8: Open-Source Architecture -->
-                    <article class="feature-card-box">
-                        <div class="feature-icon"><span class="material-symbols-outlined">code</span></div>
+                    <article class="feature-card-box spotlight-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                        </div>
                         <h3>Open Architecture</h3>
                         <p>100% transparent open-source code under the GPL-3.0 license. Inspect, audit, or contribute freely on GitHub.</p>
                     </article>
@@ -411,7 +433,7 @@
                     <!-- 2 Distinct Download Options -->
                     <div class="download-options-grid">
                         <!-- Option 1: Best for most users -->
-                        <div class="download-card-option" id="download-best">
+                        <div class="download-card-option spotlight-card" id="download-best">
                             <div class="option-header">
                                 <div class="option-icon">
                                     <span class="material-symbols-outlined">phone_android</span>
@@ -425,7 +447,7 @@
                                 Recommended universal release containing all device architectures (ARMv7, ARM64, x86). Installs smoothly on all compatible Android phones and tablets.
                             </p>
                             <div class="option-action">
-                                <a href="https://github.com/harikarthick12/RYVON-BEATZ/releases/download/v1.6.0/RYVON-BEATZ-v1.6.0-universal.apk" class="btn-action-primary" target="_blank" rel="noopener" download aria-label="Download RYVON BEATZ Universal APK for Android 8.0+">
+                                <a href="https://github.com/harikarthick12/RYVON-BEATZ/releases/download/v1.6.0/RYVON-BEATZ-v1.6.0-universal.apk" class="btn-action-primary" target="_blank" rel="noopener" download aria-label="Download RYVON BEATZ Universal APK for Android 8.0+" data-magnetic>
                                     <span class="material-symbols-outlined">download</span>
                                     <span>Download RYVON BEATZ APK</span>
                                 </a>
@@ -433,7 +455,7 @@
                         </div>
 
                         <!-- Option 2: Smaller download for modern phones -->
-                        <div class="download-card-option" id="download-modern">
+                        <div class="download-card-option spotlight-card" id="download-modern">
                             <div class="option-header">
                                 <div class="option-icon">
                                     <span class="material-symbols-outlined">speed</span>
@@ -447,7 +469,7 @@
                                 Lean, compact installation tailored exclusively for modern 64-bit ARM architecture. Uses significantly less storage and downloads faster.
                             </p>
                             <div class="option-action">
-                                <a href="https://github.com/harikarthick12/RYVON-BEATZ/releases/download/v1.6.0/RYVON-BEATZ-v1.6.0-arm64-v8a.apk" class="btn-action-primary" target="_blank" rel="noopener" download aria-label="Download RYVON BEATZ ARM64 Optimized APK for Android 10+">
+                                <a href="https://github.com/harikarthick12/RYVON-BEATZ/releases/download/v1.6.0/RYVON-BEATZ-v1.6.0-arm64-v8a.apk" class="btn-action-primary" target="_blank" rel="noopener" download aria-label="Download RYVON BEATZ ARM64 Optimized APK for Android 10+" data-magnetic>
                                     <span class="material-symbols-outlined">download</span>
                                     <span>Download for Android (ARM64)</span>
                                 </a>
@@ -459,11 +481,11 @@
                     <a href="download.html" class="full-download-banner" aria-label="Visit dedicated RYVON BEATZ download page for full system requirements and installation guide">
                         <div class="banner-content">
                             <div class="banner-icon">
-                                <span class="material-symbols-outlined">verified</span>
+                                <span class="material-symbols-outlined">description</span>
                             </div>
                             <div class="banner-text">
                                 <strong>Need full system requirements, changelog, or install guide?</strong>
-                                <span>Visit the dedicated RYVON BEATZ Download Page with release notes and verification &rarr;</span>
+                                <span>Visit the dedicated RYVON BEATZ Download Page with release notes and specifications &rarr;</span>
                             </div>
                         </div>
                         <span class="material-symbols-outlined banner-arrow">arrow_forward</span>
@@ -482,7 +504,7 @@
         <!-- Frequently Asked Questions (FAQ) Section -->
         <section class="faq-section" id="faq">
             <div class="faq-container">
-                <div class="faq-header">
+                <div class="faq-header blur-reveal">
                     <span class="eyebrow-tag">QUESTIONS & ANSWERS</span>
                     <h2 class="section-title">Frequently Asked Questions</h2>
                     <p class="section-subtitle">Everything you need to know about the RYVON BEATZ Android music player.</p>

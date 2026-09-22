@@ -29,6 +29,15 @@
         let frame = 0;
         let scrollVelocity = 0;
         let lastScrollY = window.scrollY;
+        let mouseX = width / 2;
+        let mouseY = height / 2;
+        let targetMouseX = mouseX;
+        let targetMouseY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            targetMouseX = e.clientX;
+            targetMouseY = e.clientY;
+        }, { passive: true });
 
         window.addEventListener('scroll', () => {
             const currentScrollY = window.scrollY;
@@ -42,11 +51,11 @@
             }
         }, { passive: true });
 
-        // Minimalist wave ribbons matching light theme
+        // React Bits: Harmonic Acoustic Wave Ribbons
         const waves = [
-            { count: 2, speed: 0.007, amplitude: 50, color: 'rgba(0, 0, 0, 0.025)', lineWidth: 1.5 },
-            { count: 3, speed: 0.010, amplitude: 70, color: 'rgba(37, 99, 235, 0.03)', lineWidth: 2 },
-            { count: 4, speed: 0.013, amplitude: 85, color: 'rgba(0, 0, 0, 0.02)', lineWidth: 1.5 }
+            { count: 1.8, speed: 0.006, amplitude: 45, color: 'rgba(0, 0, 0, 0.025)', lineWidth: 1.5 },
+            { count: 2.8, speed: 0.009, amplitude: 65, color: 'rgba(37, 99, 235, 0.035)', lineWidth: 2 },
+            { count: 3.6, speed: 0.012, amplitude: 80, color: 'rgba(0, 0, 0, 0.018)', lineWidth: 1.5 }
         ];
 
         function drawWave(w, offset) {
@@ -54,12 +63,16 @@
             ctx.lineWidth = w.lineWidth;
             ctx.strokeStyle = w.color;
 
-            const centerY = height * 0.45;
-            const boost = Math.min(scrollVelocity, 35);
+            const centerY = height * 0.46;
+            const boost = Math.min(scrollVelocity, 30);
 
-            for (let x = 0; x < width; x += 8) {
-                const angle = (x * 0.003 * w.count) + (frame * w.speed) + offset;
-                const y = centerY + Math.sin(angle) * (w.amplitude + boost) + Math.cos(angle * 0.5) * (w.amplitude * 0.35);
+            for (let x = 0; x <= width + 10; x += 10) {
+                const angle = (x * 0.0028 * w.count) + (frame * w.speed) + offset;
+                // Gentle organic deflection toward mouse cursor
+                const distToMouse = Math.abs(x - mouseX);
+                const mouseInfluence = Math.max(0, (260 - distToMouse) / 260) * ((mouseY - centerY) * 0.1);
+
+                const y = centerY + Math.sin(angle) * (w.amplitude + boost) + Math.cos(angle * 0.48) * (w.amplitude * 0.3) + mouseInfluence;
                 if (x === 0) {
                     ctx.moveTo(x, y);
                 } else {
@@ -71,6 +84,9 @@
 
         function render() {
             ctx.clearRect(0, 0, width, height);
+
+            mouseX += (targetMouseX - mouseX) * 0.04;
+            mouseY += (targetMouseY - mouseY) * 0.04;
 
             waves.forEach((wave, idx) => {
                 drawWave(wave, idx * 1.8);
@@ -151,6 +167,65 @@
     }
 
     // =========================================================================
+    // 5. React Bits: Spotlight Card Effect
+    // =========================================================================
+    function initSpotlightCards() {
+        const spotlightCards = document.querySelectorAll('.spotlight-card');
+        if (!spotlightCards.length) return;
+
+        spotlightCards.forEach((card) => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    }
+
+    // =========================================================================
+    // 6. React Bits: Magnetic Button Physics
+    // =========================================================================
+    function initMagneticButtons() {
+        const magneticButtons = document.querySelectorAll('[data-magnetic]');
+        if (!magneticButtons.length || window.matchMedia('(pointer: coarse)').matches) return;
+
+        magneticButtons.forEach((btn) => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - (rect.left + rect.width / 2);
+                const y = e.clientY - (rect.top + rect.height / 2);
+                // Subtle magnetic pull (15% damping)
+                btn.style.transform = `translate(${x * 0.18}px, ${y * 0.18}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate(0px, 0px)';
+            });
+        });
+    }
+
+    // =========================================================================
+    // 7. React Bits: BlurText / Scroll Reveal
+    // =========================================================================
+    function initBlurReveal() {
+        const revealElements = document.querySelectorAll('.blur-reveal');
+        if (!revealElements.length || !('IntersectionObserver' in window)) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach((el) => observer.observe(el));
+    }
+
+    // =========================================================================
     // Initialization
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
@@ -158,6 +233,9 @@
         initDeviceTilts();
         initMobileMenu();
         initFaqAccordion();
+        initSpotlightCards();
+        initMagneticButtons();
+        initBlurReveal();
     });
 
 })();
