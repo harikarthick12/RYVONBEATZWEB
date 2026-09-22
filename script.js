@@ -131,12 +131,33 @@
     }
 
     // =========================================================================
+    // 4. Smooth FAQ Accordion Behavior
+    // =========================================================================
+    function initFaqAccordion() {
+        const faqItems = document.querySelectorAll('.faq-item');
+        if (!faqItems.length) return;
+
+        faqItems.forEach((item) => {
+            item.addEventListener('toggle', () => {
+                if (item.open) {
+                    faqItems.forEach((other) => {
+                        if (other !== item && other.open) {
+                            other.open = false;
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    // =========================================================================
     // Initialization
     // =========================================================================
     document.addEventListener('DOMContentLoaded', () => {
         initAmbientCanvas();
         initDeviceTilts();
         initMobileMenu();
+        initFaqAccordion();
     });
 
 })();
