@@ -147,10 +147,10 @@
   }
 
   // =========================================================================
-  // 4. Interactive Karaoke Lyrics & Real Audio Playback (Ryvon Sing)
+  // =========================================================================
+  // 4. Interactive Karaoke Lyrics Simulator (Ryvon Sing - Silent Visual Preview)
   // =========================================================================
   function initLyricsSimulator() {
-    const audio = document.getElementById('lyricsAudio');
     const playBtn = document.getElementById('lyricsPlayBtn');
     const stream = document.getElementById('lyricsStream');
     const lyricsLines = document.querySelectorAll('.lyrics-line');
@@ -165,12 +165,20 @@
 
     let isPlaying = false;
     let activeIndex = 0;
+    let currentTime = 0;
+    const duration = 30; // 30 seconds total preview
+    let animFrameId = null;
+    let lastTime = 0;
 
     function formatTime(seconds) {
       if (isNaN(seconds)) return '0:00';
       const m = Math.floor(seconds / 60);
       const s = Math.floor(seconds % 60);
       return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    if (durationEl) {
+      durationEl.textContent = formatTime(duration);
     }
 
     function scrollToLine(index) {
@@ -197,7 +205,7 @@
       isPlaying = playing;
       if (playBtn) {
         playBtn.classList.toggle('playing', playing);
-        playBtn.setAttribute('aria-label', playing ? 'Pause song' : 'Play song');
+        playBtn.setAttribute('aria-label', playing ? 'Pause lyrics preview' : 'Play lyrics preview');
         const playIcon = playBtn.querySelector('.icon-play');
         const pauseIcon = playBtn.querySelector('.icon-pause');
         if (playIcon && pauseIcon) {
@@ -207,32 +215,74 @@
       }
     }
 
-    function playAudio(startSeconds) {
-      if (audio) {
-        if (typeof startSeconds === 'number') {
-          audio.currentTime = startSeconds;
+    function updateUI(time) {
+      // Update progress bar
+      if (progressFill) {
+        progressFill.style.width = `${Math.min(100, (time / duration) * 100)}%`;
+      }
+      if (currentTimeEl) {
+        currentTimeEl.textContent = formatTime(time);
+      }
+
+      // Check which line matches current time
+      let foundIdx = -1;
+      lyricsLines.forEach((line, idx) => {
+        const start = parseFloat(line.getAttribute('data-start')) || 0;
+        const end = parseFloat(line.getAttribute('data-end')) || 999;
+        if (time >= start && time < end) {
+          foundIdx = idx;
         }
-        audio.play().then(() => {
-          updatePlayButtonUI(true);
-        }).catch(err => {
-          console.log('Audio autoplay awaiting user touch/gesture:', err);
-          updatePlayButtonUI(false);
-        });
+      });
+
+      if (foundIdx !== -1) {
+        setActiveLine(foundIdx);
       }
     }
 
-    function pauseAudio() {
-      if (audio) {
-        audio.pause();
+    function tick(timestamp) {
+      if (!isPlaying) return;
+      if (!lastTime) lastTime = timestamp;
+      const delta = (timestamp - lastTime) / 1000;
+      lastTime = timestamp;
+
+      currentTime += delta;
+
+      if (currentTime >= duration) {
+        currentTime = 0;
+        pauseSimulation();
+        updateUI(0);
+        setActiveLine(0);
+        return;
       }
+
+      updateUI(currentTime);
+      animFrameId = requestAnimationFrame(tick);
+    }
+
+    function startSimulation(startAt) {
+      if (typeof startAt === 'number') {
+        currentTime = Math.max(0, Math.min(duration, startAt));
+      }
+      isPlaying = true;
+      lastTime = 0;
+      updatePlayButtonUI(true);
+      updateUI(currentTime);
+      cancelAnimationFrame(animFrameId);
+      animFrameId = requestAnimationFrame(tick);
+    }
+
+    function pauseSimulation() {
+      isPlaying = false;
+      lastTime = 0;
       updatePlayButtonUI(false);
+      cancelAnimationFrame(animFrameId);
     }
 
     function togglePlay() {
       if (isPlaying) {
-        pauseAudio();
+        pauseSimulation();
       } else {
-        playAudio();
+        startSimulation();
       }
     }
 
@@ -244,12 +294,16 @@
       });
     }
 
-    // Touch or click any lyric line to play that exact line!
+    // Touch or click any lyric line to jump to that line
     lyricsLines.forEach((line, index) => {
       line.addEventListener('click', () => {
         const start = parseFloat(line.getAttribute('data-start')) || 0;
+        currentTime = start;
         setActiveLine(index);
-        playAudio(start);
+        updateUI(currentTime);
+        if (isPlaying) {
+          lastTime = 0;
+        }
       });
 
       // Keyboard accessibility
@@ -257,93 +311,40 @@
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           const start = parseFloat(line.getAttribute('data-start')) || 0;
+          currentTime = start;
           setActiveLine(index);
-          playAudio(start);
+          updateUI(currentTime);
+          if (isPlaying) {
+            lastTime = 0;
+          }
         }
       });
     });
 
-    // Native audio time update listener for real-time synchronization
-    if (audio) {
-      audio.addEventListener('timeupdate', () => {
-        const cur = audio.currentTime;
-        const dur = audio.duration || 30;
-
-        // Update progress bar fill
-        if (progressFill) {
-          progressFill.style.width = `${(cur / dur) * 100}%`;
-        }
-        if (currentTimeEl) {
-          currentTimeEl.textContent = formatTime(cur);
-        }
-        if (durationEl && audio.duration) {
-          durationEl.textContent = formatTime(audio.duration);
-        }
-
-        // Find and highlight matching line
-        let foundIdx = -1;
-        lyricsLines.forEach((line, idx) => {
-          const start = parseFloat(line.getAttribute('data-start')) || 0;
-          const end = parseFloat(line.getAttribute('data-end')) || 999;
-          if (cur >= start && cur < end) {
-            foundIdx = idx;
-          }
-        });
-
-        if (foundIdx !== -1) {
-          setActiveLine(foundIdx);
+    // Progress bar click seeking
+    if (progressBar) {
+      progressBar.addEventListener('click', (e) => {
+        const rect = progressBar.getBoundingClientRect();
+        const clickX = e.clientX - rect.left;
+        const pct = Math.max(0, Math.min(1, clickX / rect.width));
+        currentTime = pct * duration;
+        updateUI(currentTime);
+        if (isPlaying) {
+          lastTime = 0;
         }
       });
-
-      audio.addEventListener('play', () => updatePlayButtonUI(true));
-      audio.addEventListener('pause', () => updatePlayButtonUI(false));
-      audio.addEventListener('ended', () => {
-        audio.currentTime = 0;
-        setActiveLine(0);
-        updatePlayButtonUI(false);
-      });
-
-      // Progress bar click seeking
-      if (progressBar) {
-        progressBar.addEventListener('click', (e) => {
-          const rect = progressBar.getBoundingClientRect();
-          const clickX = e.clientX - rect.left;
-          const pct = Math.max(0, Math.min(1, clickX / rect.width));
-          const targetTime = pct * (audio.duration || 30);
-          playAudio(targetTime);
-        });
-      }
     }
 
-    // When the user scrolls through the section, auto-play the song
-    const cardSing = document.getElementById('card-ryvon-sing');
-    if (cardSing && 'IntersectionObserver' in window) {
-      let hasTriggeredOnScroll = false;
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !hasTriggeredOnScroll && !isPlaying) {
-            hasTriggeredOnScroll = true;
-            playAudio(0);
-          }
-        });
-      }, {
-        threshold: 0.35
-      });
-      observer.observe(cardSing);
-    }
-
-    // Vocal Slider adjustments
+    // Vocal Slider adjustments (silent UI demonstration)
     if (vocalSlider && vocalVal) {
       vocalSlider.addEventListener('input', (e) => {
         const val = e.target.value;
         vocalVal.textContent = `${val}%`;
-        if (audio) {
-          audio.volume = Math.max(0.1, val / 100);
-        }
       });
     }
 
     // Default to line 0 on load
+    updateUI(0);
     setActiveLine(0);
   }
 
